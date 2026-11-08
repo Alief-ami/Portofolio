@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alif — Game, web, dan video</title>
+<meta name="description" content="Portofolio Alief El Faqih Yulizar: mahasiswa Informatika yang membuat game, web, dan video.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EEF1F4;
+  --panel:#FFFFFF;
+  --ink:#101828;
+  --mute:#556074;
+  --line:#CBD3DD;
+  --video:#2F6BFF;
+  --code:#FF9A57;
+  --lw:72px;
+  --gutter:20px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Figtree",system-ui,sans-serif;font-size:1.0625rem;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--video);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 var(--gutter)}
+h1,h2,h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.05;margin:0;letter-spacing:-.02em}
+
+/* Header */
+.top{display:flex;justify-content:space-between;align-items:center;padding:22px 0}
+.brand{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.35rem;text-decoration:none;letter-spacing:-.02em}
+.nav{display:flex;gap:22px;font-weight:500}
+.nav a{text-decoration:none;color:var(--mute)}
+.nav a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:5px}
+
+/* Hero */
+.hero{padding:clamp(36px,8vw,96px) 0 28px}
+.hero h1{font-size:clamp(2.6rem,7.4vw,5.6rem);font-weight:800;max-width:15ch}
+.hero p{max-width:56ch;color:var(--mute);margin:26px 0 0;font-size:1.15rem}
+.hero p strong{color:var(--ink);font-weight:600}
+
+/* Timeline */
+.tl-wrap{margin:44px 0 12px}
+.tl{
+  position:relative;background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  padding:0 14px 14px 0;cursor:crosshair;touch-action:pan-y;--p:0;
+  overflow:hidden;
+}
+.row{display:flex;align-items:center}
+.row .lab{width:var(--lw);flex:none;padding-left:16px;font-weight:600;font-size:.9rem;color:var(--mute)}
+.row .lane{position:relative;flex:1;height:48px}
+.row.ruler .lane{
+  height:30px;
+  background:
+    repeating-linear-gradient(to right,var(--line) 0 1px,transparent 1px 10%) bottom/100% 14px no-repeat,
+    repeating-linear-gradient(to right,var(--line) 0 1px,transparent 1px 2%) bottom/100% 6px no-repeat;
+}
+.row + .row{margin-top:6px}
+.clip{
+  position:absolute;top:4px;bottom:4px;display:flex;align-items:center;
+  padding:0 12px;border-radius:7px;text-decoration:none;font-weight:600;font-size:.92rem;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  transition:filter .15s, transform .15s;
+}
+.clip.v{background:var(--video);color:#fff}
+.clip.c{background:var(--code);color:var(--ink)}
+.clip:hover{filter:brightness(1.08);transform:translateY(-2px)}
+.playhead{
+  position:absolute;top:0;bottom:0;width:0;pointer-events:none;opacity:0;
+  left:calc(var(--lw) + (100% - var(--lw) - 14px) * var(--p));
+  transition:opacity .15s;
+}
+.tl.live .playhead{opacity:1}
+.playhead::before{content:"";position:absolute;top:0;bottom:0;left:-1px;width:2px;background:var(--ink)}
+.playhead span{
+  position:absolute;top:4px;left:8px;background:var(--ink);color:#fff;border-radius:5px;
+  padding:1px 8px;font-size:.78rem;font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+.tl.flip .playhead span{left:auto;right:8px}
+.hint{color:var(--mute);font-size:.92rem;margin:12px 0 0}
+
+/* Sections */
+section{padding:clamp(48px,8vw,88px) 0 0}
+.sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px}
+.sec-head h2{font-size:clamp(1.9rem,4.4vw,2.9rem);font-weight:700}
+.sec-head .sw{width:14px;height:14px;border-radius:4px;flex:none;transform:translateY(-2px)}
+.sw.v{background:var(--video)} .sw.c{background:var(--code)}
+.sec-lead{color:var(--mute);max-width:56ch;margin:0 0 26px}
+
+.proj{
+  display:grid;grid-template-columns:6px 1fr;gap:0 22px;
+  padding:26px 0;border-top:1px solid var(--line);scroll-margin-top:16px;
+}
+.proj:last-child{border-bottom:1px solid var(--line)}
+.proj .bar{border-radius:3px;background:var(--code)}
+.proj.v .bar{background:var(--video)}
+.proj:target{background:linear-gradient(90deg,rgba(47,107,255,.07),transparent)}
+.proj.c:target{background:linear-gradient(90deg,rgba(255,154,87,.16),transparent)}
+.proj h3{font-size:1.55rem;font-weight:700}
+.proj p{margin:10px 0 0;max-width:62ch}
+.proj .stack{margin:12px 0 0;color:var(--mute);font-size:.95rem}
+.proj .go{display:inline-block;margin-top:12px;font-weight:600;text-underline-offset:4px}
+
+/* About */
+.about{display:grid;gap:36px;grid-template-columns:1.3fr 1fr}
+.about p{margin:0 0 16px;max-width:58ch}
+.skills h3{font-size:1.15rem;font-weight:700;margin-bottom:8px}
+.skills ul{list-style:none;margin:0 0 24px;padding:0}
+.skills li{padding:7px 0;border-top:1px solid var(--line)}
+.skills li:last-child{border-bottom:1px solid var(--line)}
+
+/* Contact */
+.contact h2{font-size:clamp(2rem,5vw,3.4rem);font-weight:800;max-width:18ch}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.links a{
+  background:var(--ink);color:#fff;text-decoration:none;font-weight:600;
+  padding:12px 20px;border-radius:999px;
+}
+.links a:hover{background:#26324a}
+.links .none{color:var(--mute)}
+footer{padding:64px 0 40px;color:var(--mute);font-size:.92rem}
+
+@media (max-width:720px){
+  :root{--lw:52px;--gutter:16px}
+  .nav{gap:14px;font-size:.95rem}
+  .row .lab{padding-left:10px;font-size:.82rem}
+  .clip{padding:0 8px;font-size:.8rem}
+  .about{grid-template-columns:1fr}
+  .proj{gap:0 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="#atas">Alif</a>
+    <nav class="nav" aria-label="Navigasi utama">
+      <a href="#kode">Kode</a>
+      <a href="#video">Video</a>
+      <a href="#tentang">Tentang</a>
+      <a href="#kontak">Kontak</a>
+    </nav>
+  </header>
+
+  <main id="atas">
+    <div class="hero">
+      <h1>Saya Alif. Saya membuat game, web, dan video.</h1>
+      <p>Mahasiswa Informatika di Universitas Amikom Yogyakarta. Siang hari saya menggarap <strong>video dan konten pemasaran</strong>, sisanya saya pakai untuk <strong>membangun game dan situs</strong> yang benar-benar bisa dijalankan.</p>
+
+      <div class="tl-wrap">
+        <div class="tl" id="tl" aria-label="Lini masa proyek: dua jalur, Video dan Kode">
+          <div class="row ruler"><div class="lab"></div><div class="lane"></div></div>
+          <div class="row">
+            <div class="lab">Video</div>
+            <div class="lane">
+              <a class="clip v" href="#v-aneka" style="left:2%;width:30%" title="Produksi video Aneka Mesin">Produksi Aneka Mesin</a>
+              <a class="clip v" href="#v-sosmed" style="left:34%;width:26%" title="Konten media sosial">Konten sosmed</a>
+              <a class="clip v" href="#v-motion" style="left:63%;width:30%" title="Motion graphics">Motion graphics</a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="lab">Kode</div>
+            <div class="lane">
+              <a class="clip c" href="#c-skripsi" style="left:0;width:38%" title="Game RPG kehidupan kampus (skripsi)">Game RPG skripsi</a>
+              <a class="clip c" href="#c-komigame" style="left:40%;width:26%" title="Komigame">Komigame</a>
+              <a class="clip c" href="#c-pixel" style="left:68%;width:30%" title="Game pixel art di browser">Game pixel</a>
+            </div>
+          </div>
+          <div class="playhead" aria-hidden="true"><span id="tc">00:00:00:00</span></div>
+        </div>
+        <p class="hint">Geser kursor di lini masa, lalu klik sebuah klip untuk melompat ke proyeknya.</p>
+      </div>
+    </div>
+
+    <section id="kode">
+      <div class="sec-head"><span class="sw c"></span><h2>Kode</h2></div>
+      <p class="sec-lead">Game dan situs yang saya bangun dan rawat sendiri.</p>
+
+      <article class="proj c" id="c-skripsi">
+        <div class="bar"></div>
+        <div>
+          <h3>Game RPG kehidupan kampus</h3>
+          <p>Game 2D untuk PC, sekaligus bahan skripsi saya. Pemain mengatur kesehatan, keuangan, dan nilai tes seorang mahasiswa. Tiga finite state machine berjalan bersamaan dan menentukan kapan pemain kalah.</p>
+          <p class="stack">Godot 4.5 · Finite State Machine · Tim Techtona</p>
+          <a class="go" href="https://a-sprite.itch.io/kehidupan-kuliah" target="_blank" rel="noopener">Mainkan di itch.io</a>
+        </div>
+      </article>
+
+      <article class="proj c" id="c-komigame">
+        <div class="bar"></div>
+        <div>
+          <h3>Komigame</h3>
+          <p>Situs top-up game untuk pemain Indonesia. Setiap game punya alur pesanan WhatsApp sendiri, produk dikelola dinamis dari database, dan ada katalog Roblox.</p>
+          <p class="stack">Supabase · Integrasi WhatsApp · Domain dan hosting</p>
+          <a class="go" href="https://komigame.my.id" target="_blank" rel="noopener">Buka komigame.my.id</a>
+        </div>
+      </article>
+
+      <article class="proj c" id="c-pixel">
+        <div class="bar"></div>
+        <div>
+          <h3>Game bertahan hidup anak kampus</h3>
+          <p>Game pixel art dalam satu file HTML. Pemain menjaga status, berpindah antar lokasi, mengikuti jam yang berjalan real-time, dan bisa kalah lewat beberapa kondisi game over.</p>
+          <p class="stack">HTML · CSS · JavaScript</p>
+        </div>
+      </article>
+    </section>
+
+    <section id="video">
+      <div class="sec-head"><span class="sw v"></span><h2>Video</h2></div>
+      <p class="sec-lead">Pekerjaan videografi dan konten di Aneka Mesin, produsen mesin di Sleman.</p>
+
+      <article class="proj v" id="v-aneka">
+        <div class="bar"></div>
+        <div>
+          <h3>Produksi video Aneka Mesin</h3>
+          <p>Merekam dan menyunting video untuk produk mesin, dari pengambilan gambar sampai video yang siap tayang.</p>
+          <p class="stack">Premiere Pro · Videografi</p>
+          <a class="go" href="https://drive.google.com/drive/folders/1Ir9vFydFQv9N7rSuO87Oaeh8y5mWm65w?usp=drive_link" target="_blank" rel="noopener">Lihat hasil video di Google Drive</a>
+        </div>
+      </article>
+
+      <article class="proj v" id="v-sosmed">
+        <div class="bar"></div>
+        <div>
+          <h3>Konten media sosial</h3>
+          <p>Membuat konten pemasaran digital untuk akun perusahaan: video pendek, gambar, dan materi promosi.</p>
+          <p class="stack">CapCut · Premiere Pro · Photoshop</p>
+        </div>
+      </article>
+
+      <article class="proj v" id="v-motion">
+        <div class="bar"></div>
+        <div>
+          <h3>Motion graphics</h3>
+          <p>Animasi dan efek untuk memperjelas informasi di dalam video.</p>
+          <p class="stack">After Effects</p>
+        </div>
+      </article>
+    </section>
+
+    <section id="tentang">
+      <div class="sec-head"><h2>Tentang</h2></div>
+      <div class="about">
+        <div>
+          <p>Nama lengkap saya Alief El Faqih Yulizar, biasa dipanggil Alif. Saya kuliah S1 Informatika di Universitas Amikom Yogyakarta dan bekerja paruh waktu di PT Khalifah Niaga Lantabura (Aneka Mesin) sebagai videografer dan digital marketing.</p>
+          <p>Saya belajar dengan membuat sesuatu sampai jalan. Dari situ saya ingin terus berkembang menjadi game programmer.</p>
+        </div>
+        <div class="skills">
+          <h3>Kode</h3>
+          <ul>
+            <li>Godot dan GDScript</li>
+            <li>HTML, CSS, JavaScript</li>
+            <li>Supabase</li>
+            <li>Finite state machine</li>
+          </ul>
+          <h3>Video</h3>
+          <ul>
+            <li>Adobe Premiere Pro</li>
+            <li>Adobe After Effects</li>
+            <li>Adobe Photoshop</li>
+            <li>CapCut</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="kontak" class="contact">
+      <h2>Mari bikin sesuatu bersama.</h2>
+      <div class="links" id="links"></div>
+    </section>
+  </main>
+
+  <footer>© 2026 Alief El Faqih Yulizar · Yogyakarta</footer>
+</div>
+
+<script>
+/* ===== Isi kontak kamu di sini. Kosongkan untuk menyembunyikan tombolnya. ===== */
+const CONTACT = {
+  "Email": "mailto:aliefelfaqihyulizar@gmail.com",
+  "WhatsApp": "https://wa.me/6281268972181",
+  "GitHub": "",       // contoh: "https://github.com/namakamu"
+  "Instagram": "https://instagram.com/Arifudesu_",
+  "LinkedIn": ""
+};
+
+(function(){
+  const box = document.getElementById('links');
+  const entries = Object.entries(CONTACT).filter(([,v]) => v);
+  if(!entries.length){
+    box.innerHTML = '<span class="none">Isi tautan kontak di bagian CONTACT pada file ini.</span>';
+  } else {
+    entries.forEach(([name,href]) => {
+      const a = document.createElement('a');
+      a.href = href; a.textContent = name;
+      if(!href.startsWith('mailto:')){ a.target='_blank'; a.rel='noopener'; }
+      box.appendChild(a);
+    });
+  }
+
+  // Playhead lini masa
+  const tl = document.getElementById('tl');
+  const tc = document.getElementById('tc');
+  const lane = tl.querySelector('.ruler .lane');
+  const FPS = 25, TOTAL = 60; // 1 menit
+  function move(clientX){
+    const r = lane.getBoundingClientRect();
+    const p = Math.min(1, Math.max(0, (clientX - r.left) / r.width));
+    tl.style.setProperty('--p', p);
+    tl.classList.toggle('flip', p > 0.8);
+    const frames = Math.round(p * TOTAL * FPS);
+    const f = frames % FPS, s = Math.floor(frames / FPS) % 60, m = Math.floor(frames / FPS / 60);
+    const z = n => String(n).padStart(2,'0');
+    tc.textContent = '00:' + z(m) + ':' + z(s) + ':' + z(f);
+  }
+  tl.addEventListener('pointermove', e => { tl.classList.add('live'); move(e.clientX); });
+  tl.addEventListener('pointerdown', e => { tl.classList.add('live'); move(e.clientX); });
+  tl.addEventListener('pointerleave', () => tl.classList.remove('live'));
+})();
+</script>
+</body>
+</html>
